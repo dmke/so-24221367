@@ -1,9 +1,17 @@
 <h1>Home</h1>
 
-<p>
-  Random <strong class="random">42</strong>
-</p>
-<p>
-  <%= link_to 'Update', :root, class: 'rand', remote: true %>
-</p>
+<ul>
+  <%- 10.times do |id| -%>
+    <li>
+      <strong class="votes-count" data-id="<%= id %>"><%= Time.current.to_i + rand(-10000..10000)%></strong>
+      users liked this.
+
+      <%- if cookies["vote-#{id}"] -%>
+        <%= link_to "Dislike", dislike_path(id: id), class: 'vote', method: :put, remote: true, data: { toggle_text: 'Like', toggle_href: like_path(id: id), id: id } %>
+      <%- else -%>
+        <%= link_to "Like", like_path(id: id), class: 'vote', method: :put, remote: true, data: { toggle_text: 'Dislike', toggle_href: dislike_path(id: id), id: id } %>
+      <%- end -%>
+    </li>
+  <%- end -%>
+</ul>
 
